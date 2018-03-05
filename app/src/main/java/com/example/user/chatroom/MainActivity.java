@@ -12,6 +12,7 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.ValueEventListener;
 import com.firebase.ui.auth.AuthUI;
@@ -35,6 +38,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static android.Manifest.permission.INTERNET;
+import static android.view.View.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     String url;
     EditText edit_msg;
-    Button button_send;
+    ImageButton button_send, button_signout;
     ListView list_msg;
     String getNickname;
 
@@ -69,24 +73,29 @@ public class MainActivity extends AppCompatActivity {
 
         edit_msg = findViewById(R.id.edit_msg);
         button_send = findViewById(R.id.button_send);
+        button_signout = findViewById(R.id.button_signout);
 
-        /* set Firebase */
+        /**
+         * set Firebase
+         */
         Firebase.setAndroidContext(MainActivity.this);
-        /* set Firebase url */
+        /** set Firebase url */
         url = "https://chatroom-e531d.firebaseio.com/";
         mRef = new Firebase(url);
-        /* Get the root of Firebase Database */
+        /** Get the root of Firebase Database */
         mDatabase = FirebaseDatabase.getInstance();
         msgRef = mDatabase.getReference("msgData");
         userRef = mDatabase.getReference("userData");
-        /* Get Firebase Auth */
+        /** Get Firebase Auth */
         auth = FirebaseAuth.getInstance();
         curUser = auth.getCurrentUser();
 
         displayChatMsg();
 
-        /* Press send, store the message to database */
-        button_send.setOnClickListener(new Button.OnClickListener(){
+        /**
+         * Press send, store the message to database
+         */
+        button_send.setOnClickListener(new View.OnClickListener(){
             String getMsg;
             @Override
             public void onClick(View v) {
@@ -95,6 +104,24 @@ public class MainActivity extends AppCompatActivity {
                         getMsg,
                         curUser.getEmail().toString()));
                 edit_msg.setText(""); // reset
+            }
+        });
+
+        /**
+         * Press sign-out, sign out the current, go back to Login
+         */
+        button_signout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                AuthUI.getInstance()
+                        .signOut(MainActivity.this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                // user is now signed out
+                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                finish();
+                            }
+                        });
             }
         });
     }

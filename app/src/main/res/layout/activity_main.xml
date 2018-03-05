@@ -42,17 +42,19 @@
             app:layout_constraintBottom_toBottomOf="@+id/layout_outer"
             android:layout_marginBottom="0dp"
             app:layout_constraintStart_toStartOf="@+id/layout_outer"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             app:layout_constraintEnd_toEndOf="@+id/layout_outer"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_weight="1">
             <EditText
                 android:id="@+id/edit_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:ems="20"
+                android:backgroundTint="@color/RoyalBlue"
+                android:textCursorDrawable="@null"
                 android:inputType="text"
                 app:layout_constraintBottom_toBottomOf="@+id/layout_bottom"
                 android:layout_marginBottom="8dp"
@@ -60,19 +62,31 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="5" />
-            <Button
+            <ImageButton
                 android:id="@+id/button_send"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Send"
+                android:src="@drawable/ic_send_black"
+                android:tint="@color/RoyalBlue"
+                android:background="@null"
                 app:layout_constraintBottom_toBottomOf="@+id/layout_bottom"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/layout_bottom"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 app:layout_constraintStart_toEndOf="@+id/edit_msg"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
+                android:layout_weight="1" />
+            <ImageButton
+                android:id="@+id/button_signout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_exit_to_app_black"
+                android:tint="@color/MediumBlue"
+                android:background="@null"
+                app:layout_constraintBottom_toBottomOf="@+id/layout_bottom"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/layout_bottom"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_weight="1" />
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>

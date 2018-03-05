@@ -1,9 +1,12 @@
 package com.example.user.chatroom;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -69,16 +72,17 @@ public class LoginActivity extends AppCompatActivity {
 
         Login_ShowLayout();
 
-        /* Check Internet permission */
+        /**
+         * Check Internet permission
+         */
         if (ContextCompat.checkSelfPermission(LoginActivity.this,
                 INTERNET)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this,
                     INTERNET)) {
-
-            } else {
+                // Should we show an explanation?
+            }
+            else {
                 ActivityCompat.requestPermissions(LoginActivity.this,
                         new String[]{INTERNET},
                         REQUEST_INTERNET);
@@ -88,7 +92,19 @@ public class LoginActivity extends AppCompatActivity {
             //Toast.makeText(LoginActivity.this, "已取得連線", Toast.LENGTH_SHORT).show();
         }
 
-        /* Check if this user is already logged in */
+        /**
+         * Check if the device has connected to internet
+         */
+        if (InternetStatus.getInstance(getApplicationContext()).isOnline()) {
+            //Toast.makeText(getApplicationContext(), "WiFi/Mobile Networks Connected!", Toast.LENGTH_SHORT).show();
+        } else { // Internet is NOT available
+            Toast.makeText(LoginActivity.this, "Ooops! No WiFi/Mobile Networks Connected!", Toast.LENGTH_LONG).show();
+            finish();
+        }
+
+        /**
+         * Check if this user is already logged in
+         */
         auth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener(){
 
@@ -108,6 +124,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
+        /**
+         * button login: call login function
+         */
         button_login.setOnClickListener(new Button.OnClickListener(){
 
             @Override
@@ -116,6 +135,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * button register: call register function
+         */
         button_register.setOnClickListener(new Button.OnClickListener(){
 
             @Override
@@ -129,6 +151,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * check box: show password clear text
+         */
         box_showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -143,7 +168,9 @@ public class LoginActivity extends AppCompatActivity {
         );
     }
 
-    // login function: get input email, password
+    /**
+     * login function: check if user sign in with a legal account
+     */
     public void login(View v){
         final String email = edit_email.getText().toString();
         final String password = edit_password.getText().toString();
@@ -164,6 +191,9 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * register function: show error message and ask user if they want to create accounts
+     */
     private void register(final String email, final String nickname, final String password){
         new AlertDialog.Builder(LoginActivity.this)
                 .setTitle("Login problem")
@@ -179,7 +209,9 @@ public class LoginActivity extends AppCompatActivity {
                 .show();
     }
 
-    // createUser function: register a new user
+    /**
+     * createUser function: register a new user
+     */
     private void createUser(final String email, final String nickname, final String password){
 
         Toast.makeText(LoginActivity.this,"create user",Toast.LENGTH_LONG).show();
