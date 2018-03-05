@@ -52,8 +52,7 @@
                 android:id="@+id/edit_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="20"
-                android:backgroundTint="@color/RoyalBlue"
+                android:backgroundTint="@color/fui_transparent"
                 android:textCursorDrawable="@null"
                 android:inputType="text"
                 app:layout_constraintBottom_toBottomOf="@+id/layout_bottom"
@@ -71,9 +70,9 @@
                 android:background="@null"
                 app:layout_constraintBottom_toBottomOf="@+id/layout_bottom"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintStart_toEndOf="@+id/edit_msg"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/button_signout"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_weight="1" />
             <ImageButton
                 android:id="@+id/button_signout"
